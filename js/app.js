@@ -14,10 +14,15 @@ let backDivEl;
 let frontDivEl;
 let container;
 let minePlaced = false;
+let numberPlaced = false;
 let randomNumber;
 let numberOfAroundMines = 0;
 let idNumber;
 let id;
+let loop;
+let t = 0
+let x
+let y
 /*------------------------ Cached Element References ------------------------*/
 const boardEl = document.querySelector("#board");
 const messageEl = document.querySelector("#message");
@@ -33,6 +38,9 @@ const initBoard = ((width, height) => {
         boardEl.removeChild(boardEl.firstChild);
 
     };
+    loop = 0;
+
+
 
     boardEl.style.display = "grid";
     boardEl.style.gridTemplateColumns = `repeat(${width}, 25px)`;
@@ -47,31 +55,33 @@ const initBoard = ((width, height) => {
     };
 
     //create back board
-    for (let r = 0; r < width; r++) {
+    for (let x = 0; x < width; x++) {
         rowEl = document.createElement("div");
         rowEl.setAttribute("class", "row");
-        rowEl.setAttribute("id", "row " + r);
+        rowEl.setAttribute("id", "row " + x);
 
         boardEl.appendChild(rowEl);
 
-        for (let i = 0; i < height; i++) {
+        for (let y = 0; y < height; y++) {
+            loop++
             container = document.createElement("div");
             container.setAttribute("class", "container");
-            container.setAttribute("id", "container" + r + i);
+            container.setAttribute("id", "container" + loop);
+            container.setAttribute("id", loop);
             rowEl.appendChild(container);
             backDivEl = document.createElement("div");
             backDivEl.setAttribute("class", "bsqr");
-            backDivEl.setAttribute("id", "back-sqr " + r + i);
+            backDivEl.setAttribute("id", "bx= " + x + " by= " + y);
             container.appendChild(backDivEl);
             frontDivEl = document.createElement("div");
             frontDivEl.setAttribute("class", "fsqr");
-            frontDivEl.setAttribute("id", "front-sqr " + r + i);
+            frontDivEl.setAttribute("id", "fx= " + x + " fy= " + y);
             container.appendChild(frontDivEl);
 
         };
     };
 
-    const frontBoardSquaresEl = document.querySelectorAll(".bsqr");
+    const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
     frontBoardSquaresEl.forEach((frontBoardSquare) => {
 
 
@@ -96,7 +106,7 @@ const initBoard = ((width, height) => {
 
     //         };
     //     };
-
+    console.log(boardEl);
 });
 
 const placeMines = (() => {
@@ -127,24 +137,52 @@ const placeMines = (() => {
 })
 
 const placeNumbers = (() => {
+    if(numberPlaced === false){
     const backBoardSquaresEl = document.querySelectorAll(".bsqr");
-    console.log(backBoardSquaresEl);
+    // console.log(backBoardSquaresEl);
+    const gridArry = [
+        [-1, -1], [0, -1], [1, -1],
+        [-1, 0], [1, 0],
+        [-1, 1], [0, 1], [1, 1]
+    ];
 
 
     backBoardSquaresEl.forEach((backBoardSquare) => {
+        
         numberOfAroundMines = 0
         id = backBoardSquare.id.split(" ")
-        idNumber = id[1]
+        
+
 
         if (backBoardSquare.textContent === "") {
-           
-
-                if (numberOfAroundMines > 0) {
-                    backBoardSquare.textContent = numberOfAroundMines
+            gridArry.forEach((location) => {
+                
+                x = id[1]
+                y = id[3]
+                x = parseFloat(x) + parseFloat(location[0])
+                y = parseFloat(y) + parseFloat(location[1])
+              
+                if(x>=0 && y>=0 && x<width && y<height){
+                const elem = document.getElementById("bx= " + x + " by= " + y)
+                
+                
+                if (elem.textContent === "💣") {
+                    numberOfAroundMines++
+    
+                    
                 }
             }
-            
-})
+            })
+            if (numberOfAroundMines > 0) {
+                backBoardSquare.textContent = numberOfAroundMines
+            }
+
+        }
+       
+
+    })
+}
+numberPlaced = true;
 })
 
 
@@ -171,6 +209,7 @@ const initEasy = (() => {
     frontBoard = [];
     win = false;
     minePlaced = false;
+    numberPlaced = false;
     difficulty = "easy";
     numberOfMines = 10;
     width = 9;
@@ -184,6 +223,7 @@ const initMedium = (() => {
     frontBoard = [];
     win = false;
     minePlaced = false;
+    numberPlaced = false;
     difficulty = "medium";
     numberOfMines = 40;
     width = 16;
@@ -197,6 +237,7 @@ const initHard = (() => {
     frontBoard = [];
     win = false;
     minePlaced = false;
+    numberPlaced = false;
     difficulty = "hard";
     numberOfMines = 99;
     width = 16;
