@@ -41,6 +41,7 @@ let clickedx
 let clickedy
 let firstClick = true
 let checkNumber
+let init = false
 
 /*------------------------ Cached Element References ------------------------*/
 const boardEl = document.querySelector("#board");
@@ -295,12 +296,48 @@ const removeSquares = ((event) => {
 })
 
 
+const checkLose = (() => {
+
+
+
+})
+
+const checkWin = (() => {
+
+
+
+
+})
+
+
+const placeMark = ((event) => {
+    event.preventDefault();
+
+id = event.srcElement.id.split(" ")
+x = id[1]
+y = id[3]
+const fsqr = document.getElementById("fx= " + x + " fy= " + y)
+
+
+if( fsqr.textContent === ""){
+
+    fsqr.textContent = "🚩"
+
+}else if(fsqr.textContent === "🚩"){
+
+    fsqr.textContent = ""
+}
+
+})
+
+
 const handleBoardClicks = ((event) => {
 
     placeMines(event)
     placeNumbers(event)
+    checkLose()
     removeSquares(event)
-
+    checkWin()
 
 })
 
@@ -324,6 +361,10 @@ const initEasy = (() => {
     width = 9;
     height = 9;
     initBoard(width, height);
+    const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
+    frontBoardSquaresEl.forEach((frontSquare) => {
+    frontSquare.addEventListener("contextmenu", placeMark);
+    })
 
 });
 
@@ -338,6 +379,10 @@ const initMedium = (() => {
     width = 16;
     height = 16;
     initBoard(width, height);
+    const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
+    frontBoardSquaresEl.forEach((frontSquare) => {    
+        frontSquare.addEventListener("contextmenu", placeMark);
+    })
 
 });
 
@@ -349,14 +394,17 @@ const initHard = (() => {
     numberPlaced = false;
     difficulty = "hard";
     numberOfMines = 99;
-    width = 16;
-    height = 30;
+    width = 30;
+    height = 16;
     initBoard(width, height);
+    const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
+    frontBoardSquaresEl.forEach((frontSquare) => { 
+        frontSquare.addEventListener("contextmenu", placeMark);
+    })
 
 });
 
 /*----------------------------- Event Listeners -----------------------------*/
-
 easyButtonEl.addEventListener("click", initEasy);
 mediumButtonEl.addEventListener("click", initMedium);
 hardButtonEl.addEventListener("click", initHard);
