@@ -2,6 +2,14 @@
 /*-------------------------------- Constants --------------------------------*/
 let backBoard = [];
 let frontBoard = [];
+const gridArry = [
+    [-1, -1], [0, -1], [1, -1],
+    [-1, 0], [1, 0],
+    [-1, 1], [0, 1], [1, 1]
+];
+const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+const remeber = [];
+const storages = [];
 /*---------------------------- Variables (state) ----------------------------*/
 let numberOfMines;
 let win = false;
@@ -20,9 +28,20 @@ let numberOfAroundMines = 0;
 let idNumber;
 let id;
 let loop;
-let t = 0
-let x
-let y
+let t1 = 0;
+let t2 = 0;
+let x;
+let y;
+let fid;
+let currentItration;
+let previosArrayLength = 0;
+let currentLength
+let clicked
+let clickedx
+let clickedy
+let firstClick = true
+let checkNumber
+
 /*------------------------ Cached Element References ------------------------*/
 const boardEl = document.querySelector("#board");
 const messageEl = document.querySelector("#message");
@@ -109,7 +128,14 @@ const initBoard = ((width, height) => {
     console.log(boardEl);
 });
 
-const placeMines = (() => {
+const placeMines = ((event) => {
+    //     if(firstClick){
+    //    clicked = event.srcElement.id.split(" ")
+    //    clickedx = clicked[1]
+    //    clickedy= clicked[3]
+    //    const bsqr = document.getElementById("bx= " + clickedx + " by= " + clickedy)
+    //    firstClick = false
+    //     }
 
     const backBoardSquaresEl = document.querySelectorAll(".bsqr");
 
@@ -136,61 +162,144 @@ const placeMines = (() => {
 
 })
 
-const placeNumbers = (() => {
-    if(numberPlaced === false){
-    const backBoardSquaresEl = document.querySelectorAll(".bsqr");
-    // console.log(backBoardSquaresEl);
-    const gridArry = [
-        [-1, -1], [0, -1], [1, -1],
-        [-1, 0], [1, 0],
-        [-1, 1], [0, 1], [1, 1]
-    ];
+const placeNumbers = ((event) => {
+    clicked = event.srcElement.id.split(" ")
+    clickedx = clicked[1]
+    clickedy = clicked[3]
+    const bsqr = document.getElementById("bx= " + clickedx + " by= " + clickedy)
+        ;
+
+    if (numberPlaced === false) {
+        const backBoardSquaresEl = document.querySelectorAll(".bsqr");
+        // console.log(backBoardSquaresEl);
 
 
-    backBoardSquaresEl.forEach((backBoardSquare) => {
-        
-        numberOfAroundMines = 0
-        id = backBoardSquare.id.split(" ")
-        
+
+        backBoardSquaresEl.forEach((backBoardSquare) => {
+
+            numberOfAroundMines = 0
+            id = backBoardSquare.id.split(" ")
 
 
-        if (backBoardSquare.textContent === "") {
-            gridArry.forEach((location) => {
-                
-                x = id[1]
-                y = id[3]
-                x = parseFloat(x) + parseFloat(location[0])
-                y = parseFloat(y) + parseFloat(location[1])
-              
-                if(x>=0 && y>=0 && x<width && y<height){
-                const elem = document.getElementById("bx= " + x + " by= " + y)
-                
-                
-                if (elem.textContent === "💣") {
-                    numberOfAroundMines++
-    
-                    
+
+            if (backBoardSquare.textContent === "") {
+                gridArry.forEach((location) => {
+
+                    x = id[1]
+                    y = id[3]
+                    x = parseFloat(x) + parseFloat(location[0])
+                    y = parseFloat(y) + parseFloat(location[1])
+
+
+                    if (x >= 0 && y >= 0 && x < width && y < height) {
+                        const elem = document.getElementById("bx= " + x + " by= " + y)
+
+
+                        if (elem.textContent === "💣") {
+                            numberOfAroundMines++
+
+
+                        }
+                    }
+                })
+                if (numberOfAroundMines > 0) {
+                    backBoardSquare.textContent = numberOfAroundMines
                 }
-            }
-            })
-            if (numberOfAroundMines > 0) {
-                backBoardSquare.textContent = numberOfAroundMines
+
             }
 
+
+        })
+    }
+    numberPlaced = true;
+
+
+})
+
+const removeSquares = ((event) => {
+    fid = event.srcElement.id
+    fid = fid.split(" ")
+    fx = fid[1]
+    fy = fid[3]
+
+    // gridArry.forEach((location) => {
+
+    //     const repeat = ((fx, fy) => {
+
+    //         if (fx >= 0 && fy >= 0 && fx < width && fy < height) {
+    //             const bsqr = document.getElementById("bx= " + fx + " by= " + fy)
+    //             checkNumber = bsqr.textContent
+    //             if(checkNumber === "" ){
+    //             const fsqr = document.getElementById("fx= " + fx + " fy= " + fy)
+    //             fsqr.setAttribute("class", "hide");
+    //             fx = parseFloat(fx) + parseFloat(location[0])
+    //             fy = parseFloat(fy) + parseFloat(location[1])
+    //             repeat(fx, fy)
+    //             }else{
+    //                 const fsqr = document.getElementById("fx= " + fx + " fy= " + fy)
+    //                 fsqr.setAttribute("class", "hide");
+    //             }
+    //         } 
+    //     })
+    //     fx = fid[1]
+    //     fy = fid[3]
+    //     repeat(fx, fy)
+    // })
+    const repeat = ((fx, fy) => {
+        fid[1] = fx
+        fid[3] = fy
+        const fsqr = document.getElementById("fx= " + fx + " fy= " + fy)
+        fsqr.setAttribute("class", "hide");
+        const bsqr = document.getElementById("bx= " + fx + " by= " + fy)
+        checkNumber = bsqr.textContent
+        if (checkNumber === "") {
+            gridArry.forEach((location) => {
+
+                fx = fid[1]
+                fy = fid[3]
+
+                fx = parseFloat(fx) + parseFloat(location[0])
+                fy = parseFloat(fy) + parseFloat(location[1])
+                if (fx >= 0 && fy >= 0 && fx < width && fy < height) {
+                    const bsqr = document.getElementById("bx= " + fx + " by= " + fy)
+                    checkNumber = bsqr.textContent
+                    const fsqr = document.getElementById("fx= " + fx + " fy= " + fy)
+
+                    // condition should check for hide class if avilabe skip
+
+                    if (checkNumber === "" && fsqr.classList.contains("hide") === false) {
+                        fsqr.setAttribute("class", "hide");
+                        storages.push([fx, fy])
+                        fx = parseFloat(fx) + parseFloat(location[0])
+                        fy = parseFloat(fy) + parseFloat(location[1])
+                    } else if (fsqr.classList.contains("hide") === false) {
+                        fsqr.setAttribute("class", "hide");
+                    }
+                }
+
+            })
         }
-       
+
+        if (storages.length > 0) {
+            storages.forEach((storage) => {
+                let itrate = storages.shift();
+                repeat(itrate[0], itrate[1])
+
+
+            })
+        }
 
     })
-}
-numberPlaced = true;
+
+    repeat(fx, fy)
 })
 
 
 const handleBoardClicks = ((event) => {
 
-    placeMines()
-    placeNumbers()
-
+    placeMines(event)
+    placeNumbers(event)
+    removeSquares(event)
 
 
 })
