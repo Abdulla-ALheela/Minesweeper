@@ -13,6 +13,7 @@ const storages = [];
 /*---------------------------- Variables (state) ----------------------------*/
 let numberOfMines;
 let win = false;
+let lose = false
 let difficulty;
 let width;
 let height;
@@ -42,15 +43,30 @@ let clickedy
 let firstClick = true
 let checkNumber
 let init = false
-
+let count
+let bombId
+let winCount = 0
+let time = 0
+let timerId
 /*------------------------ Cached Element References ------------------------*/
 const boardEl = document.querySelector("#board");
 const messageEl = document.querySelector("#message");
 const easyButtonEl = document.querySelector("#easy");
 const mediumButtonEl = document.querySelector("#medium");
 const hardButtonEl = document.querySelector("#hard");
-
+const countEl = document.querySelector("#count");
+const timerEl = document.querySelector("#timer");
 /*-------------------------------- Functions --------------------------------*/
+
+const timer = (() => {
+timerId = setTimeout(timer,1000)
+time++
+timerEl.textContent = time
+if(win === true || lose === true){
+    clearTimeout(timerId)
+}
+
+})
 
 const initBoard = ((width, height) => {
 
@@ -126,7 +142,7 @@ const initBoard = ((width, height) => {
 
     //         };
     //     };
-    console.log(boardEl);
+
 });
 
 const placeMines = ((event) => {
@@ -250,7 +266,8 @@ const removeSquares = ((event) => {
         fid[1] = fx
         fid[3] = fy
         const fsqr = document.getElementById("fx= " + fx + " fy= " + fy)
-        fsqr.setAttribute("class", "hide");
+        fsqr.classList.add("hide");
+        // fsqr.setAttribute("class", "hide");
         const bsqr = document.getElementById("bx= " + fx + " by= " + fy)
         checkNumber = bsqr.textContent
         if (checkNumber === "") {
@@ -268,13 +285,15 @@ const removeSquares = ((event) => {
 
                     // condition should check for hide class if avilabe skip
 
-                    if (checkNumber === "" && fsqr.classList.contains("hide") === false) {
-                        fsqr.setAttribute("class", "hide");
+                    if (checkNumber === "" && fsqr.classList.contains("hide") === false && fsqr.textContent === "") {
+                        // fsqr.setAttribute("class", "hide");
+                        fsqr.classList.add("hide");
                         storages.push([fx, fy])
                         fx = parseFloat(fx) + parseFloat(location[0])
                         fy = parseFloat(fy) + parseFloat(location[1])
-                    } else if (fsqr.classList.contains("hide") === false) {
-                        fsqr.setAttribute("class", "hide");
+                    } else if (fsqr.classList.contains("hide") === false && fsqr.textContent === "") {
+                        // fsqr.setAttribute("class", "hide");
+                        fsqr.classList.add("hide");
                     }
                 }
 
@@ -296,49 +315,119 @@ const removeSquares = ((event) => {
 })
 
 
-const checkLose = (() => {
+const checkLose = ((event) => {
+    if (win === false) {
+        id = event.srcElement.id.split(" ")
+        x = id[1]
+        y = id[3]
+        const bsqr = document.getElementById("bx= " + x + " by= " + y)
+
+        if (bsqr.textContent === "💣") {
+            messageEl.textContent = "Lose"
+            lose = true
+            bsqr.style.backgroundColor = "red"
+            const backBoardSquaresEl = document.querySelectorAll(".bsqr");
+            backBoardSquaresEl.forEach((backBoardSquare) => {
+                if (backBoardSquare.textContent === "💣") {
+                    backBoardSquare.style.backgroundColor = "red"
+                    bombId = backBoardSquare.id.split(" ")
+                    x = bombId[1]
+                    y = bombId[3]
+                    const fsqr = document.getElementById("fx= " + x + " fy= " + y)
+                    // fsqr.setAttribute("class", "hide");
+                    fsqr.classList.add("hide");
+                }
+
+            })
+        }
 
 
+    }
 
+    if(lose === true){
+        clearTimeout(timerId)
+        
+    }
 })
 
 const checkWin = (() => {
+    if (lose === false) {
+        const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
+        const backBoardSquaresEl = document.querySelectorAll(".bsqr");
+        // backBoardSquaresEl.forEach((backBoardSquare) => {
+        frontBoardSquaresEl.forEach((frontBoardSquare) => {
+
+            if (frontBoardSquare.classList.contains("hide") === true || frontBoardSquare.textContent === "🚩") {
+                winCount++
 
 
 
+            }
+        })
+        // })
 
+        if (winCount === numberOfSquares && count === 0) {
+            messageEl.textContent = "Win"
+            win = true
+
+
+        } else {
+            winCount = 0;
+        }
+    }
+
+    if(win === true){
+        clearTimeout(timerId)
+    
+    }
 })
 
 
 const placeMark = ((event) => {
     event.preventDefault();
+    if (lose === false && win === false) {
+        id = event.srcElement.id.split(" ")
+        x = id[1]
+        y = id[3]
+        const fsqr = document.getElementById("fx= " + x + " fy= " + y)
 
-id = event.srcElement.id.split(" ")
-x = id[1]
-y = id[3]
-const fsqr = document.getElementById("fx= " + x + " fy= " + y)
+
+        if (fsqr.textContent === "") {
+
+            fsqr.textContent = "🚩"
+            count--
 
 
-if( fsqr.textContent === ""){
+        } else if (fsqr.textContent === "🚩") {
 
-    fsqr.textContent = "🚩"
+            fsqr.textContent = ""
+            count++
 
-}else if(fsqr.textContent === "🚩"){
-
-    fsqr.textContent = ""
-}
-
+        }
+        countEl.textContent = count
+        checkWin()
+    }
 })
 
 
 const handleBoardClicks = ((event) => {
-
-    placeMines(event)
-    placeNumbers(event)
-    checkLose()
-    removeSquares(event)
-    checkWin()
-
+    if(firstClick === true){
+    timer()
+    firstClick = false
+    }
+    id = event.srcElement.id.split(" ")
+    x = id[1]
+    y = id[3]
+    const fsqr = document.getElementById("fx= " + x + " fy= " + y)
+    if (lose === false && win === false) {
+        if (fsqr.textContent !== "🚩") {
+            placeMines(event)
+            placeNumbers(event)
+            checkLose(event)
+            removeSquares(event)
+            checkWin()
+        }
+    }
 })
 
 
@@ -351,54 +440,78 @@ const render = (() => {
 
 
 const initEasy = (() => {
+    clearTimeout(timerId)
+    firstClick = true
     backBoard = [];
     frontBoard = [];
     win = false;
+    lose = false;
     minePlaced = false;
     numberPlaced = false;
     difficulty = "easy";
     numberOfMines = 10;
+    count = numberOfMines
+    countEl.textContent = count
     width = 9;
     height = 9;
+    messageEl.textContent = ""
+    time = 0
+    timerEl.textContent = time
     initBoard(width, height);
     const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
     frontBoardSquaresEl.forEach((frontSquare) => {
-    frontSquare.addEventListener("contextmenu", placeMark);
+        frontSquare.addEventListener("contextmenu", placeMark);
     })
 
 });
 
 const initMedium = (() => {
+    clearTimeout(timerId)
+    firstClick = true
     backBoard = [];
     frontBoard = [];
     win = false;
+    lose = false;
     minePlaced = false;
     numberPlaced = false;
     difficulty = "medium";
     numberOfMines = 40;
+    count = numberOfMines
+    countEl.textContent = count
     width = 16;
     height = 16;
+    messageEl.textContent = ""
+     time = 0
+     timerEl.textContent = time
     initBoard(width, height);
     const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
-    frontBoardSquaresEl.forEach((frontSquare) => {    
+    frontBoardSquaresEl.forEach((frontSquare) => {
         frontSquare.addEventListener("contextmenu", placeMark);
     })
 
 });
 
 const initHard = (() => {
+    clearTimeout(timerId)
+    firstClick = true
     backBoard = [];
     frontBoard = [];
     win = false;
+    lose = false;
     minePlaced = false;
     numberPlaced = false;
     difficulty = "hard";
     numberOfMines = 99;
+    count = numberOfMines
+    countEl.textContent = count
     width = 30;
     height = 16;
+    messageEl.textContent = ""
+     time = 0
+     timerEl.textContent = time
     initBoard(width, height);
     const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
-    frontBoardSquaresEl.forEach((frontSquare) => { 
+    frontBoardSquaresEl.forEach((frontSquare) => {
         frontSquare.addEventListener("contextmenu", placeMark);
     })
 
