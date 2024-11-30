@@ -1,42 +1,44 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Tiny5&display=swap');
+ body {
 
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: "Tiny5", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    font-style: normal;
     margin: 0;
     min-height: 100dvh;
     display: flex;
-    /* justify-content: center; */
     flex-direction: column;
     align-items: center;
     padding: 0;
+    background-color: rgb(128, 128, 128);
+    /* text-shadow: 0 0 80px rgb(192 219 255 / 75%), 0 0 32px rgb(65 120 255 / 24%); */
+    background: linear-gradient(to right, #30CFD0, #c43ad6);
+    /* -webkit-background-clip: text; */
+    text-align: center;
+
 }
-/* h1{
-    display: flex;
-    justify-content: center; 
+h1{
+    font-size: 70px;
 }
-button{
-    display: flex;
-    justify-content: center; 
-}  */
 
 .bsqr {
     height: 5px;
     width: 5px;
     aspect-ratio: 1/1;
-    border: 1px solid black;
     font-size: 5px;
     text-align: center;
-    background-color: snow;
-    /* z-index: 1; */
+    background-color:rgb(255, 165, 0);
+   
+ 
 }
 
 .fsqr {
     height: 5px;
     width: 5px;
     aspect-ratio: 1/1;
-    border: 1px solid black;
     font-size: 5px;
     text-align: center;
-    background-color: rgb(95, 27, 220);
+    background-color:rgb(0, 122, 255);
     z-index: 1; 
 
 }
@@ -54,9 +56,44 @@ button{
     left: 0;
     width: 100%;
     height: 100%;
+    text-align: center;
+    font-size: large;
+    border: 1px solid rgb(0, 0, 139);
+
+    
 }
 
 .hide{
 
     visibility: hidden;
+   
+} 
+
+#count,#timer,#clock,#bomb{
+display: flex;
+flex-direction: row;
+display: inline;
+margin: 40px;
+font-family: "Tiny5"
+}
+
+
+button{
+    font-size: 18px;
+    padding: 12px 32px;
+    margin: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    transition: 0.5s;
+    cursor: pointer;
+    font-family: "Tiny5"
+}
+
+button:hover{
+    box-shadow: rgba(var(#d03030), 0.5) 0px 0px 20px 0px; 
+    transition: all 0.3s ease;
+    transform: translateY(-20px);
 }

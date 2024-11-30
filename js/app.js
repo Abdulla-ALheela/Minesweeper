@@ -11,7 +11,7 @@ const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 const remeber = [];
 const storages = [];
 /*---------------------------- Variables (state) ----------------------------*/
-let numberOfMines;
+let numberOfMines = 0;
 let win = false;
 let lose = false
 let difficulty;
@@ -56,15 +56,17 @@ const mediumButtonEl = document.querySelector("#medium");
 const hardButtonEl = document.querySelector("#hard");
 const countEl = document.querySelector("#count");
 const timerEl = document.querySelector("#timer");
+timerEl.textContent = time
+countEl.textContent = numberOfMines
 /*-------------------------------- Functions --------------------------------*/
 
 const timer = (() => {
-timerId = setTimeout(timer,1000)
-time++
-timerEl.textContent = time
-if(win === true || lose === true){
-    clearTimeout(timerId)
-}
+    timerId = setTimeout(timer, 1000)
+    time++
+    timerEl.textContent = time
+    if (win === true || lose === true) {
+        clearTimeout(timerId)
+    }
 
 })
 
@@ -220,7 +222,36 @@ const placeNumbers = ((event) => {
                     }
                 })
                 if (numberOfAroundMines > 0) {
-                    backBoardSquare.textContent = numberOfAroundMines
+                    if (numberOfAroundMines === 1) {
+                        backBoardSquare.textContent = numberOfAroundMines
+                        backBoardSquare.style.color = "rgb(41, 177, 142)"
+                    } else if (numberOfAroundMines === 2) {
+                        backBoardSquare.textContent = numberOfAroundMines
+                        backBoardSquare.style.color = "rgb(80, 150, 43)"
+                    } else if (numberOfAroundMines === 3) {
+                        backBoardSquare.textContent = numberOfAroundMines
+                        backBoardSquare.style.color = "rgb(231, 182, 67)"
+                    } else if (numberOfAroundMines === 4) {
+                        backBoardSquare.textContent = numberOfAroundMines
+                        backBoardSquare.style.color = "rgb(233, 6, 34)"
+                    } else if (numberOfAroundMines === 5) {
+                        backBoardSquare.textContent = numberOfAroundMines
+                        backBoardSquare.style.color = "rgb(113, 46, 50)"
+                    } else if (numberOfAroundMines === 6) {
+                        backBoardSquare.textContent = numberOfAroundMines
+                        backBoardSquare.style.color = "rgb(22, 23, 23)"
+                    } else if (numberOfAroundMines === 7) {
+                        backBoardSquare.textContent = numberOfAroundMines
+                        backBoardSquare.style.color = "rgb(21, 40, 54)"
+                    } else if (numberOfAroundMines === 8) {
+                        backBoardSquare.textContent = numberOfAroundMines
+                        backBoardSquare.style.color = "rgb(209, 204, 123)"
+                    } else if (numberOfAroundMines === 9) {
+                        backBoardSquare.textContent = numberOfAroundMines
+                        backBoardSquare.style.color = "rgb(223, 71, 58)"
+                    }
+
+
                 }
 
             }
@@ -323,7 +354,7 @@ const checkLose = ((event) => {
         const bsqr = document.getElementById("bx= " + x + " by= " + y)
 
         if (bsqr.textContent === "💣") {
-            messageEl.textContent = "Lose"
+            messageEl.textContent = "Explode"
             lose = true
             bsqr.style.backgroundColor = "red"
             const backBoardSquaresEl = document.querySelectorAll(".bsqr");
@@ -344,9 +375,9 @@ const checkLose = ((event) => {
 
     }
 
-    if(lose === true){
+    if (lose === true) {
         clearTimeout(timerId)
-        
+
     }
 })
 
@@ -367,7 +398,7 @@ const checkWin = (() => {
         // })
 
         if (winCount === numberOfSquares && count === 0) {
-            messageEl.textContent = "Win"
+            messageEl.textContent = "Clear"
             win = true
 
 
@@ -376,9 +407,9 @@ const checkWin = (() => {
         }
     }
 
-    if(win === true){
+    if (win === true) {
         clearTimeout(timerId)
-    
+
     }
 })
 
@@ -411,9 +442,9 @@ const placeMark = ((event) => {
 
 
 const handleBoardClicks = ((event) => {
-    if(firstClick === true){
-    timer()
-    firstClick = false
+    if (firstClick === true) {
+        timer()
+        firstClick = false
     }
     id = event.srcElement.id.split(" ")
     x = id[1]
@@ -440,6 +471,9 @@ const render = (() => {
 
 
 const initEasy = (() => {
+    easyButtonEl.textContent = "Reset"
+    mediumButtonEl.textContent = "Intermediate"
+    hardButtonEl.textContent = "Expert"
     clearTimeout(timerId)
     firstClick = true
     backBoard = [];
@@ -466,6 +500,9 @@ const initEasy = (() => {
 });
 
 const initMedium = (() => {
+    easyButtonEl.textContent = "Beginner"
+    mediumButtonEl.textContent = "Reset"
+    hardButtonEl.textContent = "Expert"
     clearTimeout(timerId)
     firstClick = true
     backBoard = [];
@@ -481,8 +518,8 @@ const initMedium = (() => {
     width = 16;
     height = 16;
     messageEl.textContent = ""
-     time = 0
-     timerEl.textContent = time
+    time = 0
+    timerEl.textContent = time
     initBoard(width, height);
     const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
     frontBoardSquaresEl.forEach((frontSquare) => {
@@ -492,6 +529,9 @@ const initMedium = (() => {
 });
 
 const initHard = (() => {
+    easyButtonEl.textContent = "Beginner"
+    mediumButtonEl.textContent = "Intermediate"
+    hardButtonEl.textContent = "Reset"
     clearTimeout(timerId)
     firstClick = true
     backBoard = [];
@@ -507,8 +547,8 @@ const initHard = (() => {
     width = 30;
     height = 16;
     messageEl.textContent = ""
-     time = 0
-     timerEl.textContent = time
+    time = 0
+    timerEl.textContent = time
     initBoard(width, height);
     const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
     frontBoardSquaresEl.forEach((frontSquare) => {
