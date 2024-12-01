@@ -17,7 +17,7 @@
     text-align: center;
 
 }
-h1{
+#title{
     font-size: 70px;
 }
 
@@ -86,7 +86,6 @@ button{
     border-radius: 4px;
     transition: all 0.3s ease;
     border-radius: 50px;
-    transition: all 0.3s ease;
     transition: 0.5s;
     cursor: pointer;
     font-family: "Tiny5"
@@ -95,5 +94,23 @@ button{
 button:hover{
     box-shadow: rgba(var(#d03030), 0.5) 0px 0px 20px 0px; 
     transition: all 0.3s ease;
-    transform: translateY(-20px);
+    transform: translateY(-10px);
+}
+
+#tutorial{
+
+    display: flex;
+    align-items: center;
+    margin: 10px auto;
+}
+
+#tutorial-text{
+        display:none;
+        overflow:hidden;
+}
+
+#message{
+    display:none;
+    overflow:hidden;
+    margin: 0px;
 }

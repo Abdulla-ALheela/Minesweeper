@@ -48,6 +48,7 @@ let bombId
 let winCount = 0
 let time = 0
 let timerId
+let revel = false
 /*------------------------ Cached Element References ------------------------*/
 const boardEl = document.querySelector("#board");
 const messageEl = document.querySelector("#message");
@@ -56,6 +57,8 @@ const mediumButtonEl = document.querySelector("#medium");
 const hardButtonEl = document.querySelector("#hard");
 const countEl = document.querySelector("#count");
 const timerEl = document.querySelector("#timer");
+const tutorialEl = document.querySelector("#tutorial-text");
+const tutorialButtonEl = document.querySelector("#tutorial");
 timerEl.textContent = time
 countEl.textContent = numberOfMines
 /*-------------------------------- Functions --------------------------------*/
@@ -76,9 +79,8 @@ const initBoard = ((width, height) => {
         boardEl.removeChild(boardEl.firstChild);
 
     };
+
     loop = 0;
-
-
 
     boardEl.style.display = "grid";
     boardEl.style.gridTemplateColumns = `repeat(${width}, 25px)`;
@@ -92,7 +94,6 @@ const initBoard = ((width, height) => {
         frontBoard[n] = "";
     };
 
-    //create back board
     for (let x = 0; x < width; x++) {
         rowEl = document.createElement("div");
         rowEl.setAttribute("class", "row");
@@ -127,44 +128,23 @@ const initBoard = ((width, height) => {
 
 
     });
-    //create front board
-    // for (let r = 0; r < width; r++) {
-    //     frontRowEl= document.createElement("div");
-    //     frontRowEl.setAttribute("class", "row");
-    //     frontRowEl.setAttribute("id", "front-row " + r);
-
-    //     boardEl.appendChild(frontRowEl);
-
-    //         for (let i=0; i < height; i++){
-
-    //         frontdivEl = document.createElement("div");
-    //         frontdivEl.setAttribute("class", "fsqr");
-    //         frontdivEl.setAttribute("id", "front-sqr " + i);
-    //         frontRowEl.appendChild(frontdivEl);
-
-    //         };
-    //     };
 
 });
 
 const placeMines = ((event) => {
-    //     if(firstClick){
-    //    clicked = event.srcElement.id.split(" ")
-    //    clickedx = clicked[1]
-    //    clickedy= clicked[3]
-    //    const bsqr = document.getElementById("bx= " + clickedx + " by= " + clickedy)
-    //    firstClick = false
-    //     }
 
     const backBoardSquaresEl = document.querySelectorAll(".bsqr");
 
     if (minePlaced === false) {
+        clicked = event.srcElement.id.split(" ")
+        clickedx = clicked[1]
+        clickedy = clicked[3]
         loopAgain: for (let p = 0; p < numberOfMines; p++) {
 
             randomNumber = Math.floor(Math.random() * numberOfSquares);
 
 
-            if (backBoard[randomNumber] === "") {
+            if (backBoard[randomNumber] === "" && backBoardSquaresEl[randomNumber].id !== "bx= " + clickedx + " by= " + clickedy) {
 
                 backBoard[randomNumber] = "💣"
                 backBoardSquaresEl[randomNumber].textContent = backBoard[randomNumber]
@@ -175,7 +155,7 @@ const placeMines = ((event) => {
             }
         }
         minePlaced = true
-        render()
+
     }
 
 
@@ -190,9 +170,6 @@ const placeNumbers = ((event) => {
 
     if (numberPlaced === false) {
         const backBoardSquaresEl = document.querySelectorAll(".bsqr");
-        // console.log(backBoardSquaresEl);
-
-
 
         backBoardSquaresEl.forEach((backBoardSquare) => {
 
@@ -270,35 +247,11 @@ const removeSquares = ((event) => {
     fx = fid[1]
     fy = fid[3]
 
-    // gridArry.forEach((location) => {
-
-    //     const repeat = ((fx, fy) => {
-
-    //         if (fx >= 0 && fy >= 0 && fx < width && fy < height) {
-    //             const bsqr = document.getElementById("bx= " + fx + " by= " + fy)
-    //             checkNumber = bsqr.textContent
-    //             if(checkNumber === "" ){
-    //             const fsqr = document.getElementById("fx= " + fx + " fy= " + fy)
-    //             fsqr.setAttribute("class", "hide");
-    //             fx = parseFloat(fx) + parseFloat(location[0])
-    //             fy = parseFloat(fy) + parseFloat(location[1])
-    //             repeat(fx, fy)
-    //             }else{
-    //                 const fsqr = document.getElementById("fx= " + fx + " fy= " + fy)
-    //                 fsqr.setAttribute("class", "hide");
-    //             }
-    //         } 
-    //     })
-    //     fx = fid[1]
-    //     fy = fid[3]
-    //     repeat(fx, fy)
-    // })
     const repeat = ((fx, fy) => {
         fid[1] = fx
         fid[3] = fy
         const fsqr = document.getElementById("fx= " + fx + " fy= " + fy)
         fsqr.classList.add("hide");
-        // fsqr.setAttribute("class", "hide");
         const bsqr = document.getElementById("bx= " + fx + " by= " + fy)
         checkNumber = bsqr.textContent
         if (checkNumber === "") {
@@ -314,16 +267,14 @@ const removeSquares = ((event) => {
                     checkNumber = bsqr.textContent
                     const fsqr = document.getElementById("fx= " + fx + " fy= " + fy)
 
-                    // condition should check for hide class if avilabe skip
+
 
                     if (checkNumber === "" && fsqr.classList.contains("hide") === false && fsqr.textContent === "") {
-                        // fsqr.setAttribute("class", "hide");
                         fsqr.classList.add("hide");
                         storages.push([fx, fy])
                         fx = parseFloat(fx) + parseFloat(location[0])
                         fy = parseFloat(fy) + parseFloat(location[1])
                     } else if (fsqr.classList.contains("hide") === false && fsqr.textContent === "") {
-                        // fsqr.setAttribute("class", "hide");
                         fsqr.classList.add("hide");
                     }
                 }
@@ -355,17 +306,17 @@ const checkLose = ((event) => {
 
         if (bsqr.textContent === "💣") {
             messageEl.textContent = "Explode"
+            messageEl.style.overflow = "visible"
+            messageEl.style.display = "block"
             lose = true
             bsqr.style.backgroundColor = "red"
             const backBoardSquaresEl = document.querySelectorAll(".bsqr");
             backBoardSquaresEl.forEach((backBoardSquare) => {
                 if (backBoardSquare.textContent === "💣") {
-                    backBoardSquare.style.backgroundColor = "red"
                     bombId = backBoardSquare.id.split(" ")
                     x = bombId[1]
                     y = bombId[3]
                     const fsqr = document.getElementById("fx= " + x + " fy= " + y)
-                    // fsqr.setAttribute("class", "hide");
                     fsqr.classList.add("hide");
                 }
 
@@ -384,8 +335,6 @@ const checkLose = ((event) => {
 const checkWin = (() => {
     if (lose === false) {
         const frontBoardSquaresEl = document.querySelectorAll(".fsqr");
-        const backBoardSquaresEl = document.querySelectorAll(".bsqr");
-        // backBoardSquaresEl.forEach((backBoardSquare) => {
         frontBoardSquaresEl.forEach((frontBoardSquare) => {
 
             if (frontBoardSquare.classList.contains("hide") === true || frontBoardSquare.textContent === "🚩") {
@@ -395,12 +344,12 @@ const checkWin = (() => {
 
             }
         })
-        // })
 
         if (winCount === numberOfSquares && count === 0) {
             messageEl.textContent = "Clear"
             win = true
-
+            messageEl.style.overflow = "visible"
+            messageEl.style.display = "block"
 
         } else {
             winCount = 0;
@@ -462,15 +411,12 @@ const handleBoardClicks = ((event) => {
 })
 
 
-
-const render = (() => {
-
-
-
-});
-
-
 const initEasy = (() => {
+    tutorialEl.style.overflow = "hidden"
+    tutorialEl.style.display = "none"
+    messageEl.style.overflow = "hidden"
+    messageEl.style.display = "none"
+    revel = false
     easyButtonEl.textContent = "Reset"
     mediumButtonEl.textContent = "Intermediate"
     hardButtonEl.textContent = "Expert"
@@ -500,6 +446,11 @@ const initEasy = (() => {
 });
 
 const initMedium = (() => {
+    tutorialEl.style.overflow = "hidden"
+    tutorialEl.style.display = "none"
+     messageEl.style.overflow = "hidden"
+    messageEl.style.display = "none"
+    revel = false
     easyButtonEl.textContent = "Beginner"
     mediumButtonEl.textContent = "Reset"
     hardButtonEl.textContent = "Expert"
@@ -529,6 +480,11 @@ const initMedium = (() => {
 });
 
 const initHard = (() => {
+    tutorialEl.style.overflow = "hidden"
+    tutorialEl.style.display = "none"
+    messageEl.style.overflow = "hidden"
+    messageEl.style.display = "none"
+    revel = false
     easyButtonEl.textContent = "Beginner"
     mediumButtonEl.textContent = "Intermediate"
     hardButtonEl.textContent = "Reset"
@@ -557,10 +513,38 @@ const initHard = (() => {
 
 });
 
+const displayTutorial = (() => {
+    easyButtonEl.textContent = "Beginner"
+    mediumButtonEl.textContent = "Intermediate"
+    hardButtonEl.textContent = "Expert"
+    messageEl.style.overflow = "hidden"
+    messageEl.style.display = "none"
+    clearTimeout(timerId)
+    time = 0
+    timerEl.textContent = time
+    numberOfMines = 0;
+    countEl.textContent = numberOfMines
+
+    while (boardEl.hasChildNodes()) {
+        boardEl.removeChild(boardEl.firstChild);
+
+    };
+    loop = 0;
+    if (revel === false) {
+        tutorialEl.style.overflow = "visible"
+        tutorialEl.style.display = "block"
+        revel = true
+    } else if (revel === true) {
+        tutorialEl.style.overflow = "hidden"
+        tutorialEl.style.display = "none"
+        revel = false
+    }
+})
+
 /*----------------------------- Event Listeners -----------------------------*/
 easyButtonEl.addEventListener("click", initEasy);
 mediumButtonEl.addEventListener("click", initMedium);
 hardButtonEl.addEventListener("click", initHard);
-
+tutorialButtonEl.addEventListener("click", displayTutorial)
 
 

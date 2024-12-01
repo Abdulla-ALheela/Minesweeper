@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +8,42 @@
     <script defer src="./js/app.js"></script>
     <title>Document</title>
 </head>
+
 <body>
     <div id="heder">
-   <h1>Minesweeper</h1>
-   <!-- <div id="button"> -->
-   <button id="easy">Beginner</button>
-   <button id="medium">Intermediate</button>
-   <button id="hard">Expert</button>
-   <div id="dashboard">
-    <h2 id="bomb">💣</h2>
-   <h2 id="count"></h2>
-   <h2 id="clock">⏱</h2>
-   <h2 id="timer"></h2>
+        <h1 id="title"><b>Minesweeper</b></h1>
+        <button id="tutorial">Tutorial</button>
+        <button id="easy">Beginner</button>
+        <button id="medium">Intermediate</button>
+        <button id="hard">Expert</button>
+        <div id="dashboard">
+            <h2 id="bomb">💣</h2>
+            <h2 id="count"></h2>
+            <h2 id="clock">⏱</h2>
+            <h2 id="timer"></h2>
+        </div>
+    </div><br>
+    <h1 id="message" class="hidden"></h1><br>
+
+    <div id="tutorial-text">
+        <h2 id="tutorial-title"><b>Minesweeper Game Tutorial</b></h2>
+        <h3><b>Goal</b>:</h3>
+        <p>Find all the hidden mines.</p>
+        <h3><b>How to Play</b>:</h3>
+        <p><b>Start</b>: Click a tile to begin. The first click is always safe.</p>
+        <p><b>Numbers</b>: A number shows how many mines are in the surrounding 8 tiles.</p>
+        <p><b>example</b></p>
+        <p><b>"1"</b>= 1 mine in the surrounding 8 tiles.</p>
+        <p><b>"2"</b>= 2 mines in the surrounding 8 tiles</p>
+        <p><b>Flag Mines</b>: Right-click to mark suspected mines.</p>
+        <p><b>Reveal Safe Tiles</b>: Use numbers to logically uncover all safe tiles.</p>
+        <h3><b>Win</b>:</h3>
+        <p>Flag every mine correctly and uncover all safe tiles.</p>
+        <h3><b>Lose</b>:</h3>
+        <p>Revealing a tile with a mine ends the game.</p>
+        <p>Good luck! 🚩💣</p>
     </div>
-    </div>
-   <!-- </div>  -->
-   <h1 id="message" class="hidden"></h1>
-   <section id="board"></section>
+    <section id="board"></section>
 </body>
+
 </html>
