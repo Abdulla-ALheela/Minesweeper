@@ -11,9 +11,7 @@
     align-items: center;
     padding: 0;
     background-color: rgb(128, 128, 128);
-    /* text-shadow: 0 0 80px rgb(192 219 255 / 75%), 0 0 32px rgb(65 120 255 / 24%); */
     background: linear-gradient(to right, #30CFD0, #c43ad6);
-    /* -webkit-background-clip: text; */
     text-align: center;
 
 }

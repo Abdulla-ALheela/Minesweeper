@@ -40,8 +40,8 @@
 
 ## Attributions
 
--   [Resource Name](https://resource-link.com/)
--   [Library/Asset Name](https://library-link.com/)
+-   [Tiny5 font](https://fonts.google.com/specimen/Tiny5)
+-   [CSS made by htwarriors108](https://uiverse.io/htwarriors108/little-cat-84)
 
 ----------
 
