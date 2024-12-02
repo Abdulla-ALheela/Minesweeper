@@ -58,6 +58,7 @@ const countEl = document.querySelector("#count");
 const timerEl = document.querySelector("#timer");
 const tutorialEl = document.querySelector("#tutorial-text");
 const tutorialButtonEl = document.querySelector("#tutorial");
+const dashboardEl = document.querySelectorAll("#dashboard")
 // set numbers for the timer and the counter
 timerEl.textContent = time;
 countEl.textContent = numberOfMines;
@@ -92,7 +93,7 @@ const initBoard = ((width, height) => {
 
     numberOfSquares = width * height;
     loop = 0;
-
+    
     // Creating the board elements
     for (let x = 0; x < width; x++) {
         rowEl = document.createElement("div");
@@ -212,31 +213,34 @@ const placeNumbers = (() => {
                 });
 
                 // give each number diffrent color
+                //#EEF4ED
+                //#000000
                 if (numberOfAroundMines > 0) {
                     if (numberOfAroundMines === 1) {
                         backBoardSquare.textContent = numberOfAroundMines;
-                        backBoardSquare.style.color = "rgb(41, 177, 142)";
+                        backBoardSquare.style.color = "blue";
                     } else if (numberOfAroundMines === 2) {
                         backBoardSquare.textContent = numberOfAroundMines;
-                        backBoardSquare.style.color = "rgb(80, 150, 43)";
+                        backBoardSquare.style.color = "green";
                     } else if (numberOfAroundMines === 3) {
                         backBoardSquare.textContent = numberOfAroundMines;
-                        backBoardSquare.style.color = "blue";
+                        backBoardSquare.style.color = "rgb(201, 134, 53)";
                     } else if (numberOfAroundMines === 4) {
                         backBoardSquare.textContent = numberOfAroundMines;
-                        backBoardSquare.style.color = "rgb(233, 6, 34)";
+                        backBoardSquare.style.color = "red";
                     } else if (numberOfAroundMines === 5) {
                         backBoardSquare.textContent = numberOfAroundMines;
-                        backBoardSquare.style.color = "rgb(113, 46, 50)";
+                        backBoardSquare.style.color = "white";
                     } else if (numberOfAroundMines === 6) {
                         backBoardSquare.textContent = numberOfAroundMines;
-                        backBoardSquare.style.color = "rgb(22, 23, 23)";
+                        backBoardSquare.style.color = "rgb(100, 61, 136)";
                     } else if (numberOfAroundMines === 7) {
                         backBoardSquare.textContent = numberOfAroundMines;
-                        backBoardSquare.style.color = "rgb(21, 40, 54)";
+                        backBoardSquare.style.color = "rgb(129, 214, 72)";
                     } else if (numberOfAroundMines === 8) {
                         backBoardSquare.textContent = numberOfAroundMines;
-                        backBoardSquare.style.color = "rgb(209, 204, 123)";
+                        backBoardSquare.style.color = "black";
+                       
                     };
                 };
             };
@@ -355,14 +359,14 @@ const checkLose = ((event) => {
         };
     };
 
-    //stop the timer
+    //Stop the timer
     if (lose === true) {
         clearTimeout(timerId);
     };
 });
 
 
-// function to check if player won
+// Function to check if player won
 const checkWin = (() => {
 
     // If statement to ensure the code doesn't execute if the player lose
@@ -494,6 +498,12 @@ const initEasy = (() => {
     mediumButtonEl.textContent = "Intermediate";
     hardButtonEl.textContent = "Expert";
 
+    // Reaveal timer and counter
+    dashboardEl.forEach((dashEl) => {
+        dashEl.style.overflow = "visible";
+        dashEl.style.display = "flex";
+    })
+
     //update counter
     numberOfMines = 10;
     count = numberOfMines;
@@ -519,6 +529,12 @@ const initMedium = (() => {
     easyButtonEl.textContent = "Beginner";
     mediumButtonEl.textContent = "Reset";
     hardButtonEl.textContent = "Expert";
+
+    // Reaveal timer and counter
+    dashboardEl.forEach((dashEl) => {
+        dashEl.style.overflow = "visible";
+        dashEl.style.display = "flex";
+    })
 
     //update counter
     numberOfMines = 40;
@@ -546,6 +562,12 @@ const initHard = (() => {
     mediumButtonEl.textContent = "Intermediate";
     hardButtonEl.textContent = "Reset";
 
+    // Reaveal timer and counter
+    dashboardEl.forEach((dashEl) => {
+        dashEl.style.overflow = "visible";
+        dashEl.style.display = "flex";
+    })
+
     //update counter
     numberOfMines = 99;
     count = numberOfMines;
@@ -571,6 +593,12 @@ const displayTutorial = (() => {
     easyButtonEl.textContent = "Beginner";
     mediumButtonEl.textContent = "Intermediate";
     hardButtonEl.textContent = "Expert";
+
+    // Unreaveal timer and counter
+    dashboardEl.forEach((dashEl) => {
+        dashEl.style.overflow = "hidden";
+        dashEl.style.display = "none";
+    })
 
     //clear the win or lose message
     messageEl.style.overflow = "hidden";

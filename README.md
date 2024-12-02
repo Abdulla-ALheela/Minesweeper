@@ -42,7 +42,10 @@
 
 -   [Tiny5 font](https://fonts.google.com/specimen/Tiny5)
 -   [CSS made by htwarriors108](https://uiverse.io/htwarriors108/little-cat-84)
-
+-   [CSS made by cssbuttons-io](https://uiverse.io/cssbuttons-io/funny-dog-69)
+-   [CSS neon text](https://css-tricks.com/how-to-create-neon-text-with-css/)
+-   [Background Image](https://wallpaperaccess.com/4k-dark-space)
+-   [Text design](https://codepen.io/cssgrid/pen/BaYKdeM)
 ----------
 
 ## Technologies Used
