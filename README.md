@@ -4,7 +4,7 @@
 
 > I chose to create this game because it allowed me to explore and apply new techniques, specifically ***Recursion*** **— a programming method where a function calls itself to simplify complex problems.** I saw this as an opportunity to learn and challenge myself while working on something meaningful. Additionally, I’ve always loved playing Minesweeper, especially on the expert difficulty, which made this project even more exciting and personal.
 
-![Screenshot from game](https://i.ibb.co/cFZntzM/screenshot-from-game.png)  
+![Screenshot from game](https://i.ibb.co/zSXk88x/game-screenshot.png)  
 
 ----------
 
@@ -44,7 +44,7 @@
 -   [CSS made by htwarriors108](https://uiverse.io/htwarriors108/little-cat-84)
 -   [CSS made by cssbuttons-io](https://uiverse.io/cssbuttons-io/funny-dog-69)
 -   [CSS neon text](https://css-tricks.com/how-to-create-neon-text-with-css/)
--   [Background Image](https://wallpaperaccess.com/4k-dark-space)
+-   [Background Image](https://wallpaperaccess.com/4k-ultra-hd-galaxy)
 -   [Text design](https://codepen.io/cssgrid/pen/BaYKdeM)
 ----------
 
