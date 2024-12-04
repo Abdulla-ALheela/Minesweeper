@@ -46,6 +46,7 @@ let winCount = 0;
 let time = 0;
 let timerId;
 let reveal = false;
+let changeToFlag = false;
 let squareAudio = new Audio("Sounds/click-squares.mp3");
 let buttonAudio = new Audio("Sounds/click-buttons.mp3");
 let flagAudio = new Audio("Sounds/Flag.mp3");
@@ -63,6 +64,7 @@ const timerEl = document.querySelector("#timer");
 const tutorialEl = document.querySelector("#tutorial-text");
 const tutorialButtonEl = document.querySelector("#tutorial");
 const dashboardEl = document.querySelectorAll("#dashboard");
+const flagButtonEl = document.querySelector("#flag");
 
 // set numbers for the timer and the counter
 timerEl.textContent = time;
@@ -466,18 +468,36 @@ const handleBoardClicks = ((event) => {
     x = id[1];
     y = id[3];
     const fsqr = document.getElementById("fx= " + x + " fy= " + y);
-
+    if(changeToFlag === true){
+        placeMark(event)
+    }
     // If statements to ensure the player can't interact with the board when they win or lose, or if there is a mark on the clicked square
     if (lose === false && win === false) {
         if (fsqr.textContent !== "🚩") {
             squareAudio.play();
             placeMines(event);
             placeNumbers(event);
+            if(changeToFlag === false){
             checkLose(event);
             removeSquares(event);
             checkWin(event);
+            }
+          
         };
     };
+});
+
+//for the button to siwtch between pacing flags and removing squares
+const changeFlag = (() => {
+buttonAudio.play();
+if(changeToFlag === false){
+    changeToFlag =true;
+    flagButtonEl.classList.add("pressed");
+    
+}else if(changeToFlag === true){
+    changeToFlag =false;
+    flagButtonEl.classList.remove("pressed");
+};
 });
 
 
@@ -493,6 +513,8 @@ const reset = (() => {
     backBoard = [];
     win = false;
     lose = false;
+    changeToFlag =false;
+    flagButtonEl.classList.remove("pressed");
     minePlaced = false;
     numberPlaced = false;
     messageEl.textContent = "";
@@ -612,10 +634,12 @@ const displayTutorial = (() => {
     timerAudio.pause(); 
     timerAudio.currentTime = 0;
 
-    // Reset the button names
+    // Reset the button 
     easyButtonEl.textContent = "Beginner";
     mediumButtonEl.textContent = "Intermediate";
     hardButtonEl.textContent = "Expert";
+    changeToFlag =false;
+    flagButtonEl.classList.remove("pressed");
 
     // Unreaveal timer and counter
     dashboardEl.forEach((dashEl) => {
@@ -660,5 +684,5 @@ easyButtonEl.addEventListener("click", initEasy);
 mediumButtonEl.addEventListener("click", initMedium);
 hardButtonEl.addEventListener("click", initHard);
 tutorialButtonEl.addEventListener("click", displayTutorial);
-
+flagButtonEl.addEventListener("click", changeFlag);
 

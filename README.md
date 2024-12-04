@@ -5,7 +5,7 @@
 
 > I chose to create this game because it allowed me to explore and apply new techniques, specifically ***Recursion*** **— a programming method where a function calls itself to simplify complex problems.** I saw this as an opportunity to learn and challenge myself while working on something meaningful. Additionally, I’ve always loved playing Minesweeper, especially on the expert difficulty, which made this project even more exciting and personal.
 
-![Screenshot from game](https://i.ibb.co/zSXk88x/game-screenshot.png)  
+![Screenshot from game](https://i.ibb.co/Qm1yDmz/game-screenshot.png)  
 
 ----------
 
@@ -63,6 +63,5 @@
 -   Add colorblind mode 
 -   Add custom board size
 -   Add a local scoreboard
--   Make the game playable on phones
 
 ----------

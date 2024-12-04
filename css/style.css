@@ -68,7 +68,7 @@ body {
         0 0 10px #0fa,
         0 0 15px #0fa,
         0 0 20px #0fa;
-        margin: 10px;
+    margin: 10px;
 
 }
 
@@ -165,10 +165,10 @@ body {
     background-color: var(--btn-color);
     border: .15em solid var(--glow-color);
     box-shadow: 0 0 0.5em .15em var(--glow-color),
-    0 0 2em 0.5em var(--glow-spread-color),
-    inset 0 0 .5em .15em var(--glow-color);
+        0 0 2em 0.5em var(--glow-spread-color),
+        inset 0 0 .5em .15em var(--glow-color);
     text-shadow: 0 0 .3em var(--glow-color);
-    justify-content:space-evenly;
+    justify-content: space-evenly;
     margin: 10px;
 }
 
@@ -206,34 +206,34 @@ button:hover {
 
 #tutorial-text {
     display: none;
-    overflow: auto; 
+    overflow: auto;
     font-family: 'Rocher';
     text-align: center;
     font-size: 18px;
-    width: 600px; 
-    height: 820px; 
+    width: 600px;
+    height: auto;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-palette: --normal;
-    --glow-color: rgb(255, 99, 71); 
-    --glow-spread-color: rgb(255, 165, 0); 
+    --glow-color: rgb(255, 99, 71);
+    --glow-spread-color: rgb(255, 165, 0);
     --enhanced-glow-color: rgb(255, 223, 0);
-    --btn-color: rgb(0, 0, 0); 
+    --btn-color: rgb(0, 0, 0);
     background-color: var(--btn-color);
     border: .15em solid;
     border-image: linear-gradient(to right, var(--glow-color), var(--glow-spread-color), var(--enhanced-glow-color));
     border-image-slice: 1;
     box-shadow: 0 0 0.5em .15em var(--glow-color),
-                0 0 2em 0.5em var(--glow-spread-color),
-                inset 0 0 .5em .15em var(--glow-color);
-    color: rgb(65, 105, 225); 
-    padding: 20px; 
-    margin: 20px; 
-    box-sizing: border-box; 
-    overflow-wrap: break-word; 
-    word-wrap: break-word; 
-    hyphens: auto; 
+        0 0 2em 0.5em var(--glow-spread-color),
+        inset 0 0 .5em .15em var(--glow-color);
+    color: rgb(65, 105, 225);
+    padding: 20px;
+    margin: 20px;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
 
@@ -298,3 +298,10 @@ button:active {
         inset 0 0 .5em .25em var(--glow-color);
 }
 
+.pressed {
+    color: var(--btn-color);
+    background-color: var(--glow-color);
+    box-shadow: 0 0 1em .25em var(--glow-color),
+        0 0 4em 2em var(--glow-spread-color),
+        inset 0 0 .75em .25em var(--glow-color);
+}
