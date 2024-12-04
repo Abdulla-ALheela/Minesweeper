@@ -1,9 +1,9 @@
 
 /*-------------------------------- Constants --------------------------------*/
 
-const gridArry = [
+const gridArrys = [
     [-1, -1], [0, -1], [1, -1],
-    [-1, 0], [1, 0],
+    [-1, 0],            [1, 0],
     [-1, 1], [0, 1], [1, 1]
 ];
 const storages = [];
@@ -46,7 +46,11 @@ let winCount = 0;
 let time = 0;
 let timerId;
 let reveal = false;
-
+let squareAudio = new Audio("Sounds/click-squares.mp3");
+let buttonAudio = new Audio("Sounds/click-buttons.mp3");
+let flagAudio = new Audio("Sounds/Flag.mp3");
+let bombAudio = new Audio("Sounds/Bomb.mp3");
+let timerAudio = new Audio("Sounds/Timer.mp3");
 /*------------------------ Cached Element References ------------------------*/
 
 const boardEl = document.querySelector("#board");
@@ -58,7 +62,8 @@ const countEl = document.querySelector("#count");
 const timerEl = document.querySelector("#timer");
 const tutorialEl = document.querySelector("#tutorial-text");
 const tutorialButtonEl = document.querySelector("#tutorial");
-const dashboardEl = document.querySelectorAll("#dashboard")
+const dashboardEl = document.querySelectorAll("#dashboard");
+
 // set numbers for the timer and the counter
 timerEl.textContent = time;
 countEl.textContent = numberOfMines;
@@ -192,7 +197,7 @@ const placeNumbers = (() => {
             if (backBoardSquare.textContent === "") {
 
                 // Loop through the array to get the coordinates of the surrounding squares
-                gridArry.forEach((location) => {
+                gridArrys.forEach((location) => {
 
                     //reset to the square clicked 
                     x = id[1];
@@ -213,8 +218,6 @@ const placeNumbers = (() => {
                 });
 
                 // give each number diffrent color
-                //#EEF4ED
-                //#000000
                 if (numberOfAroundMines > 0) {
                     if (numberOfAroundMines === 1) {
                         backBoardSquare.textContent = numberOfAroundMines;
@@ -277,7 +280,7 @@ const removeSquares = ((event) => {
         if (checkNumber === "") {
 
             // Loop through the array to get the coordinates of the surrounding squares
-            gridArry.forEach((location) => {
+            gridArrys.forEach((location) => {
 
                 //reset to the square clicked 
                 fx = fid[1];
@@ -338,7 +341,8 @@ const checkLose = ((event) => {
 
         // If the clicked square has a mine, it will display "Explode", highlight the square with a red background, and reveal all mines.
         if (bsqr.textContent === "💣") {
-
+            bombAudio.currentTime = 0;
+            bombAudio.play();
             messageEl.textContent = "Explode";
             messageEl.style.overflow = "visible";
             messageEl.style.display = "block";
@@ -362,6 +366,8 @@ const checkLose = ((event) => {
     //Stop the timer
     if (lose === true) {
         clearTimeout(timerId);
+        timerAudio.pause(); 
+        timerAudio.currentTime = 0;
     };
 });
 
@@ -404,6 +410,8 @@ const checkWin = (() => {
     //Stop timer
     if (win === true) {
         clearTimeout(timerId);
+        timerAudio.pause(); 
+        timerAudio.currentTime = 0;
     };
 });
 
@@ -423,7 +431,7 @@ const placeMark = ((event) => {
 
         // If right-clicked on a square, it will remove the mark if it exists, or place a mark if it is empty.
         if (fsqr.textContent === "" && count > 0) {
-
+            flagAudio.play();
             fsqr.textContent = "🚩";
             count--;
 
@@ -448,6 +456,8 @@ const handleBoardClicks = ((event) => {
     //start timer with the first click
     if (firstClick === true) {
         timer();
+        timerAudio.loop = true;
+        timerAudio.play();
         firstClick = false;
     };
 
@@ -460,6 +470,7 @@ const handleBoardClicks = ((event) => {
     // If statements to ensure the player can't interact with the board when they win or lose, or if there is a mark on the clicked square
     if (lose === false && win === false) {
         if (fsqr.textContent !== "🚩") {
+            squareAudio.play();
             placeMines(event);
             placeNumbers(event);
             checkLose(event);
@@ -487,11 +498,15 @@ const reset = (() => {
     messageEl.textContent = "";
     time = 0;
     timerEl.textContent = time;
+    timerAudio.pause(); 
+    timerAudio.currentTime = 0;
 });
 
 
 // Function that has all the information to create the board on easy difficulty
 const initEasy = (() => {
+
+    buttonAudio.play();
 
     //changing the button name to reset
     easyButtonEl.textContent = "Reset";
@@ -525,6 +540,8 @@ const initEasy = (() => {
 // Function that has all the information to create the board on medium difficulty
 const initMedium = (() => {
 
+    buttonAudio.play();
+
     //changing the button name to reset
     easyButtonEl.textContent = "Beginner";
     mediumButtonEl.textContent = "Reset";
@@ -557,6 +574,8 @@ const initMedium = (() => {
 // Function that has all the information to create the board on hard difficulty
 const initHard = (() => {
 
+    buttonAudio.play();
+
     //changing the button name to reset
     easyButtonEl.textContent = "Beginner";
     mediumButtonEl.textContent = "Intermediate";
@@ -588,6 +607,10 @@ const initHard = (() => {
 
 // Function to reveal and unreveal the tutorial
 const displayTutorial = (() => {
+
+    buttonAudio.play();
+    timerAudio.pause(); 
+    timerAudio.currentTime = 0;
 
     // Reset the button names
     easyButtonEl.textContent = "Beginner";

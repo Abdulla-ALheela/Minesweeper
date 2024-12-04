@@ -1,3 +1,4 @@
+
 # Minesweeper 🎮
 
 > Minesweeper is a classic puzzle game that challenges players to clear a grid of hidden mines without detonating any. The game is played on a grid of squares, some of which contain mines. The objective is to uncover all the squares that do not contain mines and mark all squares that contain mines.
@@ -59,7 +60,9 @@
 ## Next Steps
 
 -   Add accessibility by implementing audible descriptions for any element when the mouse hovers over it.
--   Add colorblind mode and dark mode
+-   Add colorblind mode 
 -   Add custom board size
+-   Add a local scoreboard
+-   Make the game playable on phones
 
 ----------
